@@ -1,0 +1,182 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Todo API",
+    "version": "1.0.0",
+    "description": "API for managing todos and completed todos"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:9000"
+    }
+  ],
+  "tags": [
+    { "name": "Todos", "description": "Todo management" },
+    { "name": "CompletedTodos", "description": "Completed todo management" }
+  ],
+  "paths": {
+    "/api/create/list": {
+      "post": {
+        "tags": ["Todos"],
+        "summary": "Create a new todo",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "task": { "type": "string" },
+                  "priority": { "type": "string", "enum": ["low","medium","high"] }
+                },
+                "required": ["task"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Todo added successfully" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/show/todos": {
+      "get": {
+        "tags": ["Todos"],
+        "summary": "Get all todos",
+        "responses": {
+          "200": {
+            "description": "List of todos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "integer" },
+                          "task": { "type": "string" },
+                          "priority": { "type": "string" },
+                          "createdAt": { "type": "string" },
+                          "updatedAt": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/todo/{id}": {
+      "get": {
+        "tags": ["Todos"],
+        "summary": "Get single todo by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Single todo details" },
+          "404": { "description": "Todo not found" }
+        }
+      }
+    },
+    "/api/update/todo/{id}": {
+      "put": {
+        "tags": ["Todos"],
+        "summary": "Update a todo",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "task": { "type": "string" },
+                  "priority": { "type": "string", "enum": ["low","medium","high"] }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Todo updated successfully" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/delete/todo/{id}": {
+      "delete": {
+        "tags": ["Todos"],
+        "summary": "Delete a todo",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Todo deleted successfully" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/complete/todo/{id}": {
+      "put": {
+        "tags": ["Todos"],
+        "summary": "Mark a todo as completed",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Todo marked as completed" },
+          "404": { "description": "Todo not found" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/show/complete": {
+      "get": {
+        "tags": ["CompletedTodos"],
+        "summary": "Get all completed todos",
+        "responses": {
+          "200": { "description": "List of completed todos" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/delete/Completed/{id}": {
+      "delete": {
+        "tags": ["CompletedTodos"],
+        "summary": "Delete a completed todo",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Completed todo deleted successfully" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/mark/todo/{id}": {
+      "put": {
+        "tags": ["CompletedTodos"],
+        "summary": "Mark a completed todo back to todo",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Task re-marked as todo" },
+          "404": { "description": "Todo not found" },
+          "500": { "description": "Server error" }
+        }
+      }
+    }
+  }
+}

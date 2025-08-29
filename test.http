@@ -1,0 +1,11 @@
+DELETE    http://localhost:9000/api/delete/todo/5
+Content-Type: application/json
+
+# {
+#   "task": "more random task",
+#   "priority": "low"
+# }
+
+
+GET  http://localhost:9000/api/localhost:9000/api/show/todos
+Content-Type: application/json
